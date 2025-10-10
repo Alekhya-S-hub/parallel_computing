@@ -103,8 +103,21 @@ if uploaded_files:
     # ===========================
     # Parallel Inference
     # ===========================
+    # --- Batch size slider (set before running) ---
+    if "batch_size" not in st.session_state:
+        st.session_state.batch_size = 32
+
+    st.session_state.batch_size = st.slider(
+        "Select batch size for Parallel Inference",
+        min_value=8,
+        max_value=128,
+        step=8,
+        value=st.session_state.batch_size
+    )
+
+    # --- Parallel Inference Button ---
     if st.button("⚡ Run Parallel Inference"):
-        batch_size = st.slider("Select batch size", 8, 128, 32, 8)
+        batch_size = st.session_state.batch_size
         progress = st.progress(0)
         start = time.time()
 
