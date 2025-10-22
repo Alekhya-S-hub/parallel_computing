@@ -11,7 +11,7 @@ import altair as alt
 # Streamlit Page Config
 # ===========================
 st.set_page_config(page_title="Parallel Inference Demo", layout="wide")
-st.title("🧠 Distributed Parallel Image Classification Demo")
+st.title("Distributed Parallel Image Classification Demo")
 st.write("Compare **serial vs. parallel GPU inference** using a pretrained ResNet18 model.")
 
 # ===========================
@@ -29,7 +29,7 @@ def load_model():
     return model, device
 
 model, device = load_model()
-st.success(f"Model loaded successfully on **{device}** ✅")
+st.success(f"Model loaded successfully on device")
 
 # ===========================
 # Image Transform
@@ -55,13 +55,13 @@ if "parallel_time" not in st.session_state:
 # File Upload
 # ===========================
 uploaded_files = st.file_uploader(
-    "📂 Upload multiple images",
+    "Upload multiple images",
     accept_multiple_files=True,
     type=["jpg", "png", "jpeg"]
 )
 
 if uploaded_files:
-    st.write(f"✅ **{len(uploaded_files)} images uploaded.**")
+    st.write(f" **{len(uploaded_files)} images uploaded.**")
 
     cols = st.columns(min(4, len(uploaded_files)))
     for idx, file in enumerate(uploaded_files[:8]):
@@ -96,7 +96,7 @@ if uploaded_files:
             st.write(f"**{f.name} → {pred}**")
 
         st.info(
-            f"🕒 Serial inference time: **{st.session_state.serial_time:.2f}s** | "
+            f"Serial inference time: **{st.session_state.serial_time:.2f}s** | "
             f"Throughput: **{serial_throughput:.2f} images/sec**"
         )
 
@@ -116,7 +116,7 @@ if uploaded_files:
     )
 
     # --- Parallel Inference Button ---
-    if st.button("⚡ Run Parallel Inference"):
+    if st.button("Run Parallel Inference"):
         batch_size = st.session_state.batch_size
         progress = st.progress(0)
         start = time.time()
@@ -143,7 +143,7 @@ if uploaded_files:
             st.write(f"**{f.name} → {CLASSES[pred.item()]}**")
 
         st.success(
-            f"⚡ Parallel inference time: **{st.session_state.parallel_time:.2f}s** | "
+            f"Parallel inference time: **{st.session_state.parallel_time:.2f}s** | "
             f"Throughput: **{parallel_throughput:.2f} images/sec**"
         )
 
@@ -172,6 +172,6 @@ if uploaded_files:
             st.altair_chart(chart, use_container_width=True)
 
             speedup = st.session_state.serial_time / st.session_state.parallel_time
-            st.markdown(f"💡 **Speed-up:** `{speedup:.2f}× faster (Parallel vs Serial)`")
+            st.markdown(f"**Speed-up:** `{speedup:.2f}× faster (Parallel vs Serial)`")
 else:
-    st.info("👆 Please upload a few images to begin.")
+    st.info("Please upload a few images to begin.")
