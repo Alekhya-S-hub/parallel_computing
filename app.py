@@ -29,7 +29,7 @@ def load_model():
     return model, device
 
 model, device = load_model()
-st.success(f"Model loaded successfully on device")
+st.success(f"Model loaded successfully on device, PyTorch threads: {torch.get_num_threads()}")
 
 # ===========================
 # Image Transform
