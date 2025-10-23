@@ -110,7 +110,7 @@ if uploaded_files:
     st.session_state.batch_size = st.slider(
         "Select batch size for Parallel Inference",
         min_value=8,
-        max_value=128,
+        max_value=64,
         step=8,
         value=st.session_state.batch_size
     )
